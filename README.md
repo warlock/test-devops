@@ -2,7 +2,7 @@
 
 ---
 
-### Parte 1
+### Parte 1 / Parte 2 : Servicios
 
 He creado un cluster de kubernetes en Google Cloud.
 
@@ -55,9 +55,12 @@ redis:
       size: 5Gi
 ```
 
-#### Creando un namespace
+#### Creando los namespace de GitLab y Jenkins
 
+```sh
 kubectl create namespace gitlab
+kubectl create namespace jenkins
+```
 
 #### Creando nodo de GitLab
 
@@ -73,3 +76,73 @@ helm upgrade --namespace gitlab \
   --set gitlab-runner.runners.privileged=true \
   -f gitlab-storage.yml
 ```
+
+#### Instalación de Jenkins
+
+```sh
+helm repo add bitnami https://charts.bitnami.com/bitnami
+helm repo update
+helm install jenkins "bitnami/jenkins" \
+  --namespace jenkins \
+  --set jenkinsUser=admin \
+  --set jenkinsPassword=password \
+  --set persistence.size="2Gi" \
+  --set metrics.service.type=LoadBalancer
+```
+
+#### Permisos para que Jenkins pueda gestionar Kubernetes (Seria mejor hacer un rol a medida)
+
+```sh
+kubectl create clusterrolebinding jenkins --clusterrole cluster-admin --serviceaccount=jenkins:default
+```
+
+#### Creando un LoadBalancer para el acceso remoto:
+
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: jenkins-svc
+  namespace: jenkins
+spec:
+  type: LoadBalancer
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+  selector:
+    app.kubernetes.io/component: jenkins-master
+    app.kubernetes.io/instance: jenkins
+```
+
+#### Pequeña web en Go con un healthcheck y con un test:
+
+[https://github.com/warlock/jenkins-golang-play](https://github.com/warlock/jenkins-golang-play)
+
+Esta es una pipeline de gitlab que ya hace el despliegue en kubernetes
+
+[https://github.com/warlock/jenkins-golang-play/blob/master/.gitlab-ci.yml](https://github.com/warlock/jenkins-golang-play/blob/master/.gitlab-ci.yml)
+
+En la pipeline de Jenkins aun no he echo el despliegue pero si funciona los test, el build y el push:
+
+[https://github.com/warlock/jenkins-golang-play/blob/master/Jenkinsfile](https://github.com/warlock/jenkins-golang-play/blob/master/Jenkinsfile)
+
+#### Script en Node.js para hacer despliegues en Jenkins a traves de la API:
+
+[https://github.com/warlock/make-jenkins-pipeline](https://github.com/warlock/make-jenkins-pipeline)
+
+El script es "createpipeline.js":
+
+```sh
+npm i
+node createpipeline.js
+```
+
+#### Instalacion y analisis de Fiddler
+
+Fiddler es un proxy para filtrar y depurar conexiones entrantes y salientes de servicios HTTP. Es mucho mas comodo y organizado que otras herramientas como Wireshark.
+La interfaz muestra los datos del request y del response de forma mas leible.
+Tambien da la posiblidad de documentar API y hacer request.
+Esta disponible para Windows, Linux y Mac.
+
+### Parte 3 : Startup de videos
