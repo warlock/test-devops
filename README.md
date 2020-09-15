@@ -30,7 +30,7 @@ brew install helm
 kubectl patch storageclass gitlab-st -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
 ```
 
-#### Almacenamiento optimo para hacer pruebas:
+#### Almacenamiento óptimo para hacer pruebas:
 
 Documento gitlab-storage.yml
 
@@ -55,7 +55,7 @@ redis:
       size: 5Gi
 ```
 
-#### Creando los namespace de GitLab y Jenkins
+#### Creando los "namespace" de GitLab y Jenkins
 
 ```sh
 kubectl create namespace gitlab
@@ -90,7 +90,7 @@ helm install jenkins "bitnami/jenkins" \
   --set metrics.service.type=LoadBalancer
 ```
 
-#### Permisos para que Jenkins pueda gestionar Kubernetes (Seria mejor hacer un rol a medida)
+#### Permisos para que Jenkins pueda gestionar Kubernetes (Es mejor hacer un rol a medida)
 
 ```sh
 kubectl create clusterrolebinding jenkins --clusterrole cluster-admin --serviceaccount=jenkins:default
@@ -138,11 +138,8 @@ npm i
 node createpipeline.js
 ```
 
-#### Instalacion y analisis de Fiddler
+#### Instalación y análisis de Fiddler
 
-Fiddler es un proxy para filtrar y depurar conexiones entrantes y salientes de servicios HTTP. Es mucho mas comodo y organizado que otras herramientas como Wireshark.
-La interfaz muestra los datos del request y del response de forma mas leible.
-Tambien da la posiblidad de documentar API y hacer request.
-Esta disponible para Windows, Linux y Mac.
+Fiddler es un proxy para filtrar y depurar conexiones entrantes y salientes de servicios HTTP. Es mucho más cómodo y organizado que otras herramientas como Wireshark. La interfaz muestra los datos del "request" y del "response" de forma más legible. También da la posibilidad de documentar API y probar " request". Está disponible para Windows, Linux y Mac.
 
 ### Parte 3 : Startup de videos
