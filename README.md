@@ -208,3 +208,17 @@ Dependiendo de los equipos de empresa los servicios/Lambda los crearía en Rust/
 - Fuera del cluster
   - Kit de monitorización Grafana/Prometheus
   - NewRelic como proveedor externo
+
+## Parte 4: Entender el código(C#) y comentarios sobre que mejoraríamos.
+
+- El código busca tiendas que estén situadas en una distancia inferior a 0.05.
+
+- Mejoras:
+  - Aislaría la conexión a la base de datos en otro documento.
+  - Agregaría la configuración con variables de entorno.
+  - Aislaría las operaciones que se están usando en los operadores de comparación en una "función" para posteriormente comparar el resultado con "< 0.05".
+  - Contenido de la función:
+    - La función devolvería double.
+    - Información sobre que tipo de operación es y si hace falta agregaría información o una URL con los recursos que la explican.
+    - Separaría las operaciones que se devolvieran los resultados en distintas variables con nombres que se entendieran con sus comentarios.
+    - Agregaría comentarios en cada paso de la operación explicando que se está haciendo.
