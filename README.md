@@ -146,7 +146,7 @@ Fiddler es un proxy para filtrar y depurar conexiones entrantes y salientes de s
 
 Dependiendo de los equipos de empresa los servicios/Lambda los crearía en Rust/Go para mejor velocidad/consumo de recursos o en Javascript/Typescript para tener un equipo que hable un solo lenguaje.
 
-### Versión cómoda/rápida aprovechando al máximo los servicios de cloud.
+### Versión cómoda/rápida aprovechando al máximo los servicios de AWS(Aplicable a Azure/Google Cloud).
 
 1. Sistemas de archivos:
 
@@ -176,7 +176,7 @@ Dependiendo de los equipos de empresa los servicios/Lambda los crearía en Rust/
      - Archivos de imagen como son avatares de distintos tamaños.
      - Envío de correos.
 
-   - Tareas:
+   - Tareas Cron:
 
      - Bajada o Subida de nivel de los sistemas de archivos según su uso.
      - Limpieza de cuentas viejas o cerradas de forma progresiva.
@@ -186,7 +186,7 @@ Dependiendo de los equipos de empresa los servicios/Lambda los crearía en Rust/
    - Front de la web: Next.js con despliegue del framework Serverless(Lambda+Cloudfront+S3):
      Permite hacer estáticos de todo lo que no es dinámico, mantiene el SEO transformando las secciones que requieren de server side rendering en Lambdas autónomas. Posteriormente publica los lambda y assets en CloudFront.
 
-5. Monitorización servicios lambda externa Dashbird.
+5. Dashbird: Monitorización externa de servicios Lambda.
 
 ### Versión manual.
 
@@ -206,5 +206,5 @@ Dependiendo de los equipos de empresa los servicios/Lambda los crearía en Rust/
   - Next.js para recibir las peticiones mas dinámicas que requieren de SSR y SEO.
 
 - Fuera del cluster
-- Kit de monitorización Grafana/Prometheus
-- NewRelic como proveedor externo
+  - Kit de monitorización Grafana/Prometheus
+  - NewRelic como proveedor externo
