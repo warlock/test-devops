@@ -148,43 +148,45 @@ Dependiendo de los equipos de empresa los servicios/Lambda los crearía en Rust/
 
 ### Versión cómoda/rápida aprovechando al máximo los servicios de cloud.
 
-- Sistema de archivos para la entrega:
-  Escogería AWS Elastic Block Storage y poco a poco refrescaría los archivos con menos éxito moviéndolos a S3 con distintos niveles de enfriamiento.
+1. Sistemas de archivos:
 
-- Sistema de archivos S3:
+   - Sistema de archivos para la entrega:
+     Escogería AWS Elastic Block Storage y poco a poco refrescaría los archivos con menos éxito moviéndolos a S3 con distintos niveles de enfriamiento.
 
-- Procesamiento de videos.
-- Alojamiento para estáticos como el dashboard privado de la empresa
-- Alojamiento imágenes como pueden ser avatares o fotos de video.
+   - Sistema de archivos S3:
 
-- Motor de búsqueda Elastic Search(AWS)
-  Contraria el servicio de AWS. Ahí guardaría los "títulos/textos/usuarios" del video publicado para facilitar la búsqueda.
+     - Procesamiento de videos.
+     - Alojamiento para estáticos como el dashboard privado de la empresa
+     - Alojamiento imágenes como pueden ser avatares o fotos de video.
 
-- Base de datos DynamoDB:
+2. Motor de búsqueda Elastic Search(AWS)
+   Contraria el servicio de AWS. Ahí guardaría los "títulos/textos/usuarios" del video publicado para facilitar la búsqueda.
 
-- Almacenaje de los datos variables de los videos como visitas, likes, comentarios en relación al ID de elastic search.
-- Almacenaje de la parte la lógica de negocio.
+3. Base de datos DynamoDB:
 
-- Lambda (Yo usaría serverless framework para organizar las lambda)
-  En esta situación usaría prácticamente todas las combinaciones:
+   - Almacenaje de los datos variables de los videos como visitas, likes, comentarios en relación al ID de elastic search.
+   - Almacenaje de la parte la lógica de negocio.
 
-1. Colas:
+4. Lambda (Yo usaría serverless framework para organizar las lambda)
+   En esta situación usaría prácticamente todas las combinaciones:
 
-- Preparación del archivo adaptando la resolución/resoluciones en s3 para ser colocados posteriormente en el sistema de archivos.
-- Archivos de imagen como son avatares de distintos tamaños.
-- Envío de correos.
+   - Colas:
 
-2. Tareas:
+     - Preparación del archivo adaptando la resolución/resoluciones en s3 para ser colocados posteriormente en el sistema de archivos.
+     - Archivos de imagen como son avatares de distintos tamaños.
+     - Envío de correos.
 
-- Bajada o Subida de nivel de los sistemas de archivos según su uso.
-- Limpieza de cuentas viejas o cerradas de forma progresiva.
+   - Tareas:
 
-3. API Lambda con Cloudfront para respuestas más inmediatas y distribuidas.
+     - Bajada o Subida de nivel de los sistemas de archivos según su uso.
+     - Limpieza de cuentas viejas o cerradas de forma progresiva.
 
-4. Front de la web: Next.js con despliegue del framework Serverless(Lambda+Cloudfront+S3):
-   Permite hacer estáticos de todo lo que no es dinámico, mantiene el SEO transformando las secciones que requieren de server side rendering en Lambdas autónomas. Posteriormente publica los lambda y assets en CloudFront.
+   - API Lambda con Cloudfront para respuestas más inmediatas y distribuidas.
 
-- Monitorización servicios lambda externa Dashbird.
+   - Front de la web: Next.js con despliegue del framework Serverless(Lambda+Cloudfront+S3):
+     Permite hacer estáticos de todo lo que no es dinámico, mantiene el SEO transformando las secciones que requieren de server side rendering en Lambdas autónomas. Posteriormente publica los lambda y assets en CloudFront.
+
+5. Monitorización servicios lambda externa Dashbird.
 
 ### Versión manual.
 
@@ -193,15 +195,15 @@ Dependiendo de los equipos de empresa los servicios/Lambda los crearía en Rust/
 
 - Cluster Kubernetes(Evidentemente cada proceso con su ReplicaSet adaptado a la necesidad):
 
-- Ingress NGINX para Balancear la carga.
-- CronJob de kubernetes para gestionar las tareas: Limpieza de cuentas, mover archivos, compilación de Next.js estilo JAMSTACK de las zonas de la pagina menos dinámicas...
-- RabbitMQ para las colas de procesamiento.
-- Procesamiento de colas y CronJob en servicios GO/Rust para mejor aprovechamiento de recursos.
-- API en servicios GO/Rust para mejor aprovechamiento de recursos y para evitar al máximo los request perdidos.
-- ElaticSearch almacenando los datos en volúmenes rápidos (Dependiendo de la situación quizá lo separaría en otro cluster solo para el)
-- API/Tareas en Go/Rust para minimizar el consumo de hardware CPU/RAM. (Servicios de monitorización estilo Jaeger para visualizar el comportamiento de sistemas críticos).
-- Redis cache de web Next.js compilada previamente con JAMSTACK.
-- Next.js para recibir las peticiones mas dinámicas que requieren de SSR y SEO.
+  - Ingress NGINX para Balancear la carga.
+  - CronJob de kubernetes para gestionar las tareas: Limpieza de cuentas, mover archivos, compilación de Next.js estilo JAMSTACK de las zonas de la pagina menos dinámicas...
+  - RabbitMQ para las colas de procesamiento.
+  - Procesamiento de colas y CronJob en servicios GO/Rust para mejor aprovechamiento de recursos.
+  - API en servicios GO/Rust para mejor aprovechamiento de recursos y para evitar al máximo los request perdidos.
+  - ElaticSearch almacenando los datos en volúmenes rápidos (Dependiendo de la situación quizá lo separaría en otro cluster solo para el)
+  - API/Tareas en Go/Rust para minimizar el consumo de hardware CPU/RAM. (Servicios de monitorización estilo Jaeger para visualizar el comportamiento de sistemas críticos).
+  - Redis cache de web Next.js compilada previamente con JAMSTACK.
+  - Next.js para recibir las peticiones mas dinámicas que requieren de SSR y SEO.
 
 - Fuera del cluster
 - Kit de monitorización Grafana/Prometheus
