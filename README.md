@@ -1,4 +1,4 @@
-## DevOps
+## Test DevOps
 
 ---
 
@@ -131,6 +131,8 @@ En la pipeline de Jenkins aun no he echo el despliegue pero si funciona los test
 
 [https://github.com/warlock/make-jenkins-pipeline](https://github.com/warlock/make-jenkins-pipeline)
 
+El archivo del job está en "job.xml".
+
 El script es "createpipeline.js":
 
 ```sh
@@ -140,7 +142,10 @@ node createpipeline.js
 
 #### Instalación y análisis de Fiddler
 
-Fiddler es un proxy para filtrar y depurar conexiones entrantes y salientes de servicios HTTP. Es mucho más cómodo y organizado que otras herramientas como Wireshark. La interfaz muestra los datos del "request" y del "response" de forma más legible. También da la posibilidad de documentar API y probar " request". Está disponible para Windows, Linux y Mac.
+Fiddler es un proxy para filtrar y depurar conexiones entrantes/salientes de servicios HTTP.
+Es una clase de sniffer orientado a los servicios HTTP con una interfaz visual cómoda que muestra los datos del "request" y del "response" de forma legible.
+También da la posibilidad de documentar API y probar "request".
+Está disponible para Windows, Linux y Mac.
 
 ## Parte 3 : Startup de videos
 
