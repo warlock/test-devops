@@ -1,8 +1,8 @@
-### Test DevOps
+## DevOps
 
 ---
 
-### Parte 1 / Parte 2 : Servicios
+## Parte 1 / Parte 2 : Servicios
 
 He creado un cluster de kubernetes en Google Cloud.
 
@@ -123,11 +123,11 @@ Esta es una pipeline de gitlab que ya hace el despliegue en kubernetes
 
 [https://github.com/warlock/jenkins-golang-play/blob/master/.gitlab-ci.yml](https://github.com/warlock/jenkins-golang-play/blob/master/.gitlab-ci.yml)
 
-En la pipeline de Jenkins aun no he echo el despliegue pero si funciona los test, el build y el push:
+En la pipeline de Jenkins aun no he echo el despliegue pero si funciona los test creando pod de kubernetes dinamicamente, el build y el push:
 
 [https://github.com/warlock/jenkins-golang-play/blob/master/Jenkinsfile](https://github.com/warlock/jenkins-golang-play/blob/master/Jenkinsfile)
 
-#### Script en Node.js para hacer despliegues en Jenkins a traves de la API:
+#### Script en Node.js para hacer pipeline en Jenkins a traves de la API:
 
 [https://github.com/warlock/make-jenkins-pipeline](https://github.com/warlock/make-jenkins-pipeline)
 
@@ -142,4 +142,67 @@ node createpipeline.js
 
 Fiddler es un proxy para filtrar y depurar conexiones entrantes y salientes de servicios HTTP. Es mucho más cómodo y organizado que otras herramientas como Wireshark. La interfaz muestra los datos del "request" y del "response" de forma más legible. También da la posibilidad de documentar API y probar " request". Está disponible para Windows, Linux y Mac.
 
-### Parte 3 : Startup de videos
+## Parte 3 : Startup de videos
+
+Dependiendo de los equipos de empresa los servicios/Lambda los crearía en Rust/Go para mejor velocidad/consumo de recursos o en Javascript/Typescript para tener un equipo que hable un solo lenguaje.
+
+### Versión cómoda/rápida aprovechando al máximo los servicios de cloud.
+
+- Sistema de archivos para la entrega:
+  Escogería AWS Elastic Block Storage y poco a poco refrescaría los archivos con menos éxito moviéndolos a S3 con distintos niveles de enfriamiento.
+
+- Sistema de archivos S3:
+
+- Procesamiento de videos.
+- Alojamiento para estáticos como el dashboard privado de la empresa
+- Alojamiento imágenes como pueden ser avatares o fotos de video.
+
+- Motor de búsqueda Elastic Search(AWS)
+  Contraria el servicio de AWS. Ahí guardaría los "títulos/textos/usuarios" del video publicado para facilitar la búsqueda.
+
+- Base de datos DynamoDB:
+
+- Almacenaje de los datos variables de los videos como visitas, likes, comentarios en relación al ID de elastic search.
+- Almacenaje de la parte la lógica de negocio.
+
+- Lambda (Yo usaría serverless framework para organizar las lambda)
+  En esta situación usaría prácticamente todas las combinaciones:
+
+1. Colas:
+
+- Preparación del archivo adaptando la resolución/resoluciones en s3 para ser colocados posteriormente en el sistema de archivos.
+- Archivos de imagen como son avatares de distintos tamaños.
+- Envío de correos.
+
+2. Tareas:
+
+- Bajada o Subida de nivel de los sistemas de archivos según su uso.
+- Limpieza de cuentas viejas o cerradas de forma progresiva.
+
+3. API Lambda con Cloudfront para respuestas más inmediatas y distribuidas.
+
+4. Front de la web: Next.js con despliegue del framework Serverless(Lambda+Cloudfront+S3):
+   Permite hacer estáticos de todo lo que no es dinámico, mantiene el SEO transformando las secciones que requieren de server side rendering en Lambdas autónomas. Posteriormente publica los lambda y assets en CloudFront.
+
+- Monitorización servicios lambda externa Dashbird.
+
+### Versión manual.
+
+- Hadoop HDFS como sistema de archivos distribuido/escalable.
+  Crería varios cluster dependiendo de la tipología de datos.
+
+- Cluster Kubernetes(Evidentemente cada proceso con su ReplicaSet adaptado a la necesidad):
+
+- Ingress NGINX para Balancear la carga.
+- CronJob de kubernetes para gestionar las tareas: Limpieza de cuentas, mover archivos, compilación de Next.js estilo JAMSTACK de las zonas de la pagina menos dinámicas...
+- RabbitMQ para las colas de procesamiento.
+- Procesamiento de colas y CronJob en servicios GO/Rust para mejor aprovechamiento de recursos.
+- API en servicios GO/Rust para mejor aprovechamiento de recursos y para evitar al máximo los request perdidos.
+- ElaticSearch almacenando los datos en volúmenes rápidos (Dependiendo de la situación quizá lo separaría en otro cluster solo para el)
+- API/Tareas en Go/Rust para minimizar el consumo de hardware CPU/RAM. (Servicios de monitorización estilo Jaeger para visualizar el comportamiento de sistemas críticos).
+- Redis cache de web Next.js compilada previamente con JAMSTACK.
+- Next.js para recibir las peticiones mas dinámicas que requieren de SSR y SEO.
+
+- Fuera del cluster
+- Kit de monitorización Grafana/Prometheus
+- NewRelic como proveedor externo
