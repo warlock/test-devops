@@ -164,7 +164,7 @@ Dependiendo de los equipos de empresa los servicios/Lambda los crearía en Rust/
 
 3. Base de datos DynamoDB:
 
-   - Almacenaje de los datos variables de los videos como visitas, likes, comentarios en relación al ID de elastic search.
+   - Almacenaje de los datos variables de los videos como visitas, likes.
    - Almacenaje de la parte la lógica de negocio.
 
 4. Lambda (Yo usaría serverless framework para organizar las lambda)
