@@ -1,6 +1,4 @@
-## Test DevOps
-
----
+# Test DevOps
 
 ## Parte 1 / Parte 2 : Servicios
 
@@ -149,7 +147,7 @@ Está disponible para Windows, Linux y Mac.
 
 ## Parte 3 : Startup de videos
 
-Dependiendo de los equipos de empresa los servicios/Lambda los crearía en Rust/Go para mejor velocidad/consumo de recursos o en Javascript/Typescript para tener un equipo que hable un solo lenguaje.
+Dependiendo de los miembros del equipo existentes en la empresa mi estrategia seria hacer los servicios en Rust/Go para mejor velocidad/consumo de recursos o en Javascript/Typescript para tener un equipo que hable un solo lenguaje tanto para el backend/frontend/móvil.
 
 ### Versión cómoda/rápida aprovechando al máximo los servicios de AWS(Aplicable a Azure/Google Cloud).
 
