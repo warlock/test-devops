@@ -118,23 +118,23 @@ spec:
 La instalación y configuración es el siguiente:
 
 1. Configuración de Jenkins
-2. Manage Plugins
-3. Instalamos los plugin de docker y kubernetes.
+2. Entramos en "Manage Plugins"
+3. Instalamos los plugin de "Docker" y "Kubernetes".
 4. Volvemos a la configuración de Jenkins.
-5. En configure system.
+5. En "Configure System".
 
-   - Aquí podemos fijar la URL Location y el correo del usuario administrador.
-   - Si inhalásemos el plugin de GitLab podemos configurar los datos de acceso con Token.
-   - En Docker podemos configurar las credenciales de nuestro registry.
+   - Aquí podemos fijar la "URL Location" y el correo del usuario administrador.
+   - Si inhalásemos el plugin de "GitLab" podemos configurar los datos de acceso con Token.
+   - En Docker podemos configurar las credenciales de nuestro "registry".
 
 6. Volvemos a la configuración de Jenkins
 7. Vamos a "Manage Nodes and Cloud"
-8. Vamos a Configure cloud.
-9. Creamos un cloud de kubernetes.
+8. Vamos a "Configure Cloud".
+9. Creamos un cloud de Kubernetes.
 
-   - La dirección de nuestro cluster es https://kubernetes.default
+   - La dirección de nuestro cluster desde dentro es https://kubernetes.default
    - Fijar el namespace "jenkins" para que se creen los contenedores ahí.
-   - La opción WebSocket tiene que estar activa.
+   - La opción "WebSocket" tiene que estar activa.
 
 #### Pequeña web en Go con un healthcheck y con un test:
 
